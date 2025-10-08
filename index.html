@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Estilos Globais e Reset */
+        /* ESTILOS (MANTIDOS do original) */
         :root {
             --dark-bg: #212529;
             --sidebar-color: #2c313a;
@@ -17,6 +17,7 @@
             --text-subtle: #bdc3c7;
             --card-bg: #343a40;
             --alert-red: #e74c3c;
+            --alert-yellow: #f39c12; /* Novo para alertas suaves */
         }
 
         body {
@@ -75,6 +76,7 @@
             border-left: 3px solid transparent;
             color: var(--text-subtle);
             font-size: 0.95em;
+            text-decoration: none; /* Adicionado para links */
         }
 
         .menu-item:hover, .menu-item.active {
@@ -149,13 +151,18 @@
         /* Área de Widgets (Grid) */
         .widgets-grid {
             display: grid;
-            grid-template-columns: 2fr 3fr; /* KPI+Alertas (Esquerda) e Gráfico+Motoristas (Direita) */
+            /* Reajustado para três colunas */
+            grid-template-columns: 1fr 1fr 1fr; 
             gap: 20px;
             padding-top: 20px;
         }
+        /* Layout específico para Visão Geral */
+        .index-grid {
+             grid-template-columns: 2fr 3fr; 
+        }
 
         /* --------------------------------- */
-        /* WIDGETS ESQUERDA (KPIs & ALERTA) */
+        /* WIDGETS GERAIS (KPIs & ALERTA & CHART) */
         /* --------------------------------- */
         .left-column {
             display: flex;
@@ -169,6 +176,9 @@
             gap: 15px;
             padding-bottom: 5px;
         }
+        .kpi-cards.full-width {
+            grid-column: 1 / -1; /* Ocupa a largura total (3 colunas) */
+        }
 
         .kpi-card {
             background-color: var(--card-bg);
@@ -177,6 +187,7 @@
             flex: 1;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
         }
 
         .kpi-card h3 {
@@ -266,22 +277,13 @@
             font-size: 0.8em;
         }
 
-        /* --------------------------------- */
-        /* WIDGETS DIREITA (GRÁFICO & MOTORISTAS) */
-        /* --------------------------------- */
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
         /* Gráfico de Desempenho */
         .chart-widget {
             background-color: var(--card-bg);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            height: 350px; /* Altura fixa para o gráfico */
+            height: 350px;
             display: flex;
             flex-direction: column;
         }
@@ -296,71 +298,6 @@
         #deliveriesChart {
             flex-grow: 1;
         }
-        
-        /* Motoristas em Destaque */
-        .drivers-widget {
-            background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .drivers-widget h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: var(--text-light);
-            font-size: 1.2em;
-        }
-
-        .driver-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #495057;
-        }
-
-        .driver-item:last-child {
-            border-bottom: none;
-        }
-
-        .driver-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .driver-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #5a6268;
-            margin-right: 15px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .driver-avatar i {
-            color: var(--text-light);
-            font-size: 20px;
-        }
-
-        .driver-name strong {
-            display: block;
-            font-weight: 600;
-        }
-
-        .driver-name span {
-            font-size: 0.85em;
-            color: var(--text-subtle);
-        }
-
-        .driver-efficiency {
-            font-weight: bold;
-            color: #2ecc71; /* Cor verde para eficiência */
-            font-size: 1.1em;
-        }
 
     </style>
 </head>
@@ -373,21 +310,21 @@
                 <i class="material-icons">local_shipping</i> LOGISTI-TRACK
             </div>
             <div class="menu">
-                <div class="menu-item active" data-module="visao-geral">
+                <a class="menu-item active" href="index.html" data-module="visao-geral">
                     <i class="material-icons">dashboard</i> Visão Geral
-                </div>
-                <div class="menu-item" data-module="motoristas">
+                </a>
+                <a class="menu-item" href="motoristas.html" data-module="motoristas">
                     <i class="material-icons">person</i> Motoristas
-                </div>
-                <div class="menu-item" data-module="veiculos">
+                </a>
+                <a class="menu-item" href="#" data-module="veiculos">
                     <i class="material-icons">directions_car</i> Veículos
-                </div>
-                <div class="menu-item" data-module="entregas">
+                </a>
+                <a class="menu-item" href="#" data-module="entregas">
                     <i class="material-icons">inventory</i> Entregas
-                </div>
-                <div class="menu-item" data-module="rotas">
+                </a>
+                <a class="menu-item" href="#" data-module="rotas">
                     <i class="material-icons">route</i> Rotas
-                </div>
+                </a>
             </div>
             <div class="sidebar-footer">
                 <i class="material-icons">settings</i>
@@ -405,7 +342,7 @@
                 </div>
             </div>
 
-            <div class="widgets-grid">
+            <div class="widgets-grid index-grid"> 
                 
                 <div class="left-column">
                     
@@ -470,60 +407,12 @@
                 </div>
 
                 <div class="right-column">
-                    
                     <div class="chart-widget">
                         <h3>Desempenho Semanal de Entregas</h3>
                         <canvas id="deliveriesChart"></canvas>
                     </div>
-
-                    <div class="drivers-widget">
-                        <h3>Motoristas em Destaque</h3>
-                        
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista A em Oetiala</strong>
-                                    <span>Armou 08 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">95% Eficiência</span>
-                        </div>
-                        
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista B em Oetiala</strong>
-                                    <span>Armou 09 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">98% Eficiência</span>
-                        </div>
-
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista C em Detalina</strong>
-                                    <span>Armou 06 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">93% Eficiência</span>
-                        </div>
-
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista D em Detalina</strong>
-                                    <span>Armou 08 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">95% Eficiência</span>
-                        </div>
-                    </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -533,9 +422,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('deliveriesChart').getContext('2d');
             
-            // Dados simulados baseados na imagem
+            // Dados simulados
             const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-            const data = [350, 480, 400, 520, 650, 450]; // Número simulado de entregas
+            const data = [350, 480, 400, 520, 650, 450]; 
 
             const deliveriesChart = new Chart(ctx, {
                 type: 'bar',
@@ -544,7 +433,7 @@
                     datasets: [{
                         label: 'Entregas Concluídas',
                         data: data,
-                        backgroundColor: 'rgba(52, 152, 219, 0.8)', // Cor Azul (accent-blue)
+                        backgroundColor: 'rgba(52, 152, 219, 0.8)',
                         borderColor: 'rgba(52, 152, 219, 1)',
                         borderWidth: 1,
                         borderRadius: 4
@@ -557,45 +446,29 @@
                         y: {
                             beginAtZero: true,
                             max: 1000,
-                            ticks: {
-                                color: 'var(--text-subtle)' // Cor para os números no eixo Y
-                            },
-                            grid: {
-                                color: '#495057' // Cor das linhas da grade
-                            }
+                            ticks: { color: 'var(--text-subtle)' },
+                            grid: { color: '#495057' }
                         },
                         x: {
-                            ticks: {
-                                color: 'var(--text-subtle)' // Cor para as etiquetas do eixo X
-                            },
-                            grid: {
-                                display: false // Remover linhas verticais
-                            }
+                            ticks: { color: 'var(--text-subtle)' },
+                            grid: { display: false }
                         }
                     },
                     plugins: {
-                        legend: {
-                            display: false // Ocultar a legenda
-                        }
+                        legend: { display: false }
                     }
                 }
             });
             
-            // 2. Lógica para alternar a classe 'active' da Sidebar
-            const menuItems = document.querySelectorAll('.menu-item');
-            
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Remove a classe 'active' de todos os itens
-                    menuItems.forEach(i => i.classList.remove('active'));
-                    
-                    // Adiciona a classe 'active' ao item clicado
-                    this.classList.add('active');
-                    
-                    // console.log('Navegando para: ' + this.getAttribute('data-module'));
-                    // Em um projeto real, aqui você carregaria o novo conteúdo.
-                });
-            });
+            // 2. Lógica de Ativação de Menu (Removido, pois agora usamos links diretos)
+            // No entanto, para fins de demonstração (se a página fosse a única), o JS de ativação seria:
+            // document.querySelectorAll('.menu-item').forEach(item => {
+            //     if (item.getAttribute('href') === 'index.html') {
+            //         item.classList.add('active');
+            //     } else {
+            //         item.classList.remove('active');
+            //     }
+            // });
         });
     </script>
 </body>
