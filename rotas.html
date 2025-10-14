@@ -205,15 +205,6 @@
             background-color: #2980b9;
         }
         
-        /* Estilo para o botão que causa o erro */
-        .error-button {
-            background-color: var(--alert-red);
-        }
-        
-        .error-button:hover {
-            background-color: #c0392b;
-        }
-
         /* Estilos do Modal de Erro */
         .error-modal {
             display: none; /* Escondido por padrão */
@@ -291,9 +282,9 @@
                 </div>
             </div>
             <div class="sidebar-footer">
-                <i class="material-icons">settings</i>
-                <i class="material-icons">help_outline</i>
-                <i class="material-icons">logout</i>
+                <i class="material-icons action-trigger">settings</i>
+                <i class="material-icons action-trigger">help_outline</i>
+                <i class="material-icons action-trigger">logout</i>
             </div>
         </div>
 
@@ -330,7 +321,7 @@
                                 <td><span class="status-badge status-active">Em Andamento</span></td>
                                 <td>15 / 20</td>
                                 <td>
-                                    <button class="action-button">Detalhes</button>
+                                    <button class="action-button action-trigger">Detalhes</button>
                                 </td>
                             </tr>
                             <tr>
@@ -340,7 +331,7 @@
                                 <td><span class="status-badge status-active">Em Andamento</span></td>
                                 <td>10 / 10</td>
                                 <td>
-                                    <button class="action-button">Detalhes</button>
+                                    <button class="action-button action-trigger">Detalhes</button>
                                 </td>
                             </tr>
                             <tr>
@@ -350,7 +341,7 @@
                                 <td><span class="status-badge status-planned">Planejada</span></td>
                                 <td>0 / 18</td>
                                 <td>
-                                    <button class="action-button">Iniciar</button>
+                                    <button class="action-button action-trigger">Iniciar</button>
                                 </td>
                             </tr>
                             <tr>
@@ -360,7 +351,7 @@
                                 <td><span class="status-badge status-completed">Concluída</span></td>
                                 <td>25 / 25</td>
                                 <td>
-                                    <button class="action-button">Relatório</button>
+                                    <button class="action-button action-trigger">Relatório</button>
                                 </td>
                             </tr>
                             <tr>
@@ -370,8 +361,7 @@
                                 <td><span class="status-badge status-planned">Planejada</span></td>
                                 <td>0 / 12</td>
                                 <td>
-                                    <button class="action-button">Iniciar</button>
-                                    <button class="action-button error-button" id="triggerErrorBtn">Forçar Erro</button> 
+                                    <button class="action-button action-trigger">Iniciar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -402,41 +392,43 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // 1. Lógica da Sidebar e Navegação (Simulação)
+            // Elementos do Modal de Erro
+            const errorModal = document.getElementById('errorModal');
+            const closeErrorModalBtn = document.getElementById('closeErrorModalBtn');
+            // Elementos de Ação
             const menuItems = document.querySelectorAll('.menu-item');
+            const actionTriggers = document.querySelectorAll('.action-trigger');
+
             
+            // Lógica de Abertura do Modal para TODOS os botões de Ação (.action-trigger)
+            actionTriggers.forEach(button => {
+                button.addEventListener('click', function() {
+                    errorModal.style.display = 'block';
+                });
+            });
+
+            // Lógica da Sidebar (Não dispara o erro, apenas simula a navegação)
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const fileName = this.getAttribute('data-file');
                     
                     if (fileName) {
-                        // Simula a navegação para outros módulos
                         alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
                     }
                 });
             });
             
             
-            // 2. Lógica do Modal de Erro (o que você pediu)
-            const triggerErrorBtn = document.getElementById('triggerErrorBtn');
-            const errorModal = document.getElementById('errorModal');
-            const closeErrorModalBtn = document.getElementById('closeErrorModalBtn');
-
-            // Abrir o modal ao clicar no botão "Forçar Erro"
-            if (triggerErrorBtn) {
-                triggerErrorBtn.addEventListener('click', function() {
-                    errorModal.style.display = 'block';
-                });
-            }
-
-            // Fechar o modal ao clicar no botão "Entendido"
+            // Lógica de Fechamento do Modal
+            
+            // Fechar ao clicar no botão "Entendido"
             if (closeErrorModalBtn) {
                 closeErrorModalBtn.addEventListener('click', function() {
                     errorModal.style.display = 'none';
                 });
             }
 
-            // Fechar o modal ao clicar fora dele
+            // Fechar ao clicar fora dele
             window.addEventListener('click', function(event) {
                 if (event.target === errorModal) {
                     errorModal.style.display = 'none';
