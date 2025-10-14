@@ -6,6 +6,7 @@
     <title>Logistic-Track | Motoristas</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         /* ================================= */
         /* CSS Separado */
@@ -13,6 +14,7 @@
         :root {
             --primary-bg: #f8f9fa;
             --dark-bg: #343a40;
+            --sidebar-color: #2c313a; /* Corrigido para ser consistente com o dashboard anterior */
             --accent-blue: #3498db;
             --highlight-green: #2ecc71;
             --highlight-orange: #f39c12;
@@ -29,14 +31,14 @@
             background-color: var(--primary-bg);
             color: var(--text-dark);
             display: flex;
-            height: 100vh;
+            min-height: 100vh; /* Alterado para min-height para melhor adaptação */
         }
 
         /* --------------------------------- */
         /* SIDEBAR */
         /* --------------------------------- */
         .sidebar {
-            background-color: var(--dark-bg);
+            background-color: var(--sidebar-color); /* Usando cor consistente */
             color: var(--text-light);
             width: 240px;
             height: 100%;
@@ -45,13 +47,22 @@
             left: 0;
             padding-top: 20px;
             padding-bottom: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
         }
 
         .logo {
             font-size: 1.6em;
             font-weight: bold;
-            padding-left: 20px;
+            padding: 0 20px 30px; /* Ajustado padding */
+            color: var(--text-light); /* Corrigido para cor clara do logo */
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.5em;
             color: var(--accent-blue);
         }
 
@@ -60,14 +71,21 @@
             align-items: center;
             padding: 15px 20px;
             cursor: pointer;
-            color: var(--text-light);
+            color: var(--text-light); /* Corrigido para cor clara */
             font-size: 1em;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, border-left 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
-        .menu-item:hover, .menu-item.active {
-            background-color: #555;
-            color: var(--text-light);
+        .menu-item:hover {
+            background-color: #3e4450; /* Um pouco mais escuro que a sidebar */
+        }
+        
+        /* Estilo para o item ATIVO */
+        .menu-item.active {
+            background-color: #3e4450;
+            border-left: 3px solid var(--accent-blue);
+            font-weight: 600;
         }
 
         .menu-item i {
@@ -82,42 +100,49 @@
             padding: 30px;
             flex-grow: 1;
             background-color: var(--primary-bg);
+            width: calc(100% - 240px); /* Ajuste para preencher o espaço restante */
+            box-sizing: border-box;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 15px 20px; /* Ajustado padding */
             background-color: var(--dark-bg);
             color: var(--text-light);
             border-radius: 8px;
+            margin-bottom: 20px; /* Adicionado margem inferior */
         }
 
         .header h2 {
             margin: 0;
             font-size: 1.6em;
         }
+        
+        .user-menu i {
+            vertical-align: middle;
+        }
 
         /* Card de Motoristas */
         .drivers-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Ajuste para um card ligeiramente maior */
             gap: 20px;
-            padding: 20px 0;
+            padding: 0; /* Removido padding interno, já tem no main-content */
         }
 
         .driver-card {
             background-color: var(--card-bg);
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
             padding: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .driver-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px); /* Diminuído o efeito hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
 
         .driver-header {
@@ -127,12 +152,12 @@
         }
 
         .driver-avatar {
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Diminuído um pouco */
+            height: 50px;
             border-radius: 50%;
             background-color: var(--accent-blue);
             color: var(--text-light);
-            font-size: 30px;
+            font-size: 24px; /* Diminuído um pouco */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -150,33 +175,34 @@
         }
 
         .driver-info p {
-            margin: 5px 0;
-            color: var(--text-dark);
+            margin: 2px 0; /* Espaçamento menor */
+            color: #6c757d; /* Cor mais sutil */
             font-size: 0.9em;
         }
 
         .driver-performance {
             font-weight: bold;
-            font-size: 1.2em;
-            color: var(--highlight-green);
+            font-size: 1em; /* Ajustado tamanho */
+            margin-bottom: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
         }
 
         .driver-actions {
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start; /* Alinhado à esquerda para layout mais limpo */
             gap: 10px;
-            margin-top: 15px; /* Adicionado para separar do desempenho */
         }
 
         .driver-actions button {
             background-color: var(--accent-blue);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 12px; /* Ajustado padding */
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.85em; /* Ajustado tamanho da fonte */
         }
 
         .driver-actions button:hover {
@@ -224,11 +250,11 @@
                     <div class="driver-avatar"><i class="material-icons">person</i></div>
                     <div class="driver-info">
                         <h4>Motorista A</h4>
-                        <p>Eficiência: 95%</p>
+                        <p>ID: MTR-001</p>
                         <p>Escala: 8:00 - 16:00</p>
                     </div>
                 </div>
-                <div class="driver-performance">Desempenho: <span style="color: #2ecc71;">Excelente</span></div>
+                <div class="driver-performance">Eficiência: 95% | Status: <span style="color: var(--highlight-green);">Excelente</span></div>
                 <div class="driver-actions">
                     <button>Ver Detalhes</button>
                     <button>Gerenciar Escala</button>
@@ -240,11 +266,11 @@
                     <div class="driver-avatar"><i class="material-icons">person</i></div>
                     <div class="driver-info">
                         <h4>Motorista B</h4>
-                        <p>Eficiência: 98%</p>
+                        <p>ID: MTR-002</p>
                         <p>Escala: 9:00 - 17:00</p>
                     </div>
                 </div>
-                <div class="driver-performance">Desempenho: <span style="color: #2ecc71;">Excelente</span></div>
+                <div class="driver-performance">Eficiência: 98% | Status: <span style="color: var(--highlight-green);">Excelente</span></div>
                 <div class="driver-actions">
                     <button>Ver Detalhes</button>
                     <button>Gerenciar Escala</button>
@@ -256,11 +282,11 @@
                     <div class="driver-avatar"><i class="material-icons">person</i></div>
                     <div class="driver-info">
                         <h4>Motorista C</h4>
-                        <p>Eficiência: 93%</p>
+                        <p>ID: MTR-003</p>
                         <p>Escala: 7:00 - 15:00</p>
                     </div>
                 </div>
-                <div class="driver-performance">Desempenho: <span style="color: var(--highlight-orange);">Bom</span></div>
+                <div class="driver-performance">Eficiência: 93% | Status: <span style="color: var(--highlight-orange);">Bom</span></div>
                 <div class="driver-actions">
                     <button>Ver Detalhes</button>
                     <button>Gerenciar Escala</button>
@@ -272,11 +298,27 @@
                     <div class="driver-avatar"><i class="material-icons">person</i></div>
                     <div class="driver-info">
                         <h4>Motorista D</h4>
-                        <p>Eficiência: 82%</p>
+                        <p>ID: MTR-004</p>
                         <p>Escala: 9:30 - 17:30</p>
                     </div>
                 </div>
-                <div class="driver-performance">Desempenho: <span style="color: var(--alert-red);">Atenção</span></div>
+                <div class="driver-performance">Eficiência: 82% | Status: <span style="color: var(--alert-red);">Atenção</span></div>
+                <div class="driver-actions">
+                    <button>Ver Detalhes</button>
+                    <button>Gerenciar Escala</button>
+                </div>
+            </div>
+            
+            <div class="driver-card">
+                <div class="driver-header">
+                    <div class="driver-avatar"><i class="material-icons">person</i></div>
+                    <div class="driver-info">
+                        <h4>Motorista E</h4>
+                        <p>ID: MTR-005</p>
+                        <p>Escala: 10:00 - 18:00</p>
+                    </div>
+                </div>
+                <div class="driver-performance">Eficiência: 90% | Status: <span style="color: var(--highlight-orange);">Bom</span></div>
                 <div class="driver-actions">
                     <button>Ver Detalhes</button>
                     <button>Gerenciar Escala</button>
@@ -291,8 +333,9 @@
             
             // Simulação de mapeamento de páginas para navegação
             const pageMap = {
-                'visao-geral': 'index.html',    // Assumindo que a Visão Geral está em index.html
-                'motoristas': 'motoristas.html', // Esta página
+                // Ao clicar, o navegador tentará ir para o arquivo .html correspondente.
+                'visao-geral': 'index.html',    
+                'motoristas': 'motoristas.html', 
                 'veiculos': 'veiculos.html',
                 'entregas': 'entregas.html',
                 'rotas': 'rotas.html'
@@ -306,10 +349,24 @@
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Navega para o arquivo correspondente. 
-                        // Para funcionar, você precisa ter criado os outros arquivos (index.html, veiculos.html, etc.)
+                        // 1. Remove a classe 'active' de todos os itens
+                        menuItems.forEach(i => i.classList.remove('active'));
+                        
+                        // 2. Adiciona a classe 'active' ao item clicado para realce visual
+                        this.classList.add('active');
+                        
+                        // 3. Simula a navegação
+                        // Esta linha tentará mudar a página no seu ambiente de trabalho.
                         window.location.href = fileName;
                     }
+                });
+            });
+            
+            // Adicionando um alerta de simulação para os botões de ação do card (opcional)
+            const actionButtons = document.querySelectorAll('.driver-actions button');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert(`Ação simulada: "${this.textContent}" para o Motorista. Você precisa implementar a página de detalhes!`);
                 });
             });
         });
