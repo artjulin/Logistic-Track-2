@@ -6,10 +6,11 @@
     <title>Logistic-Track | Gestão de Rotas</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* Estilos Globais e Reset (mantidos do painel principal) */
+        /* Estilos Globais e Reset */
         :root {
             --dark-bg: #212529;
             --sidebar-color: #2c313a;
@@ -28,7 +29,7 @@
             background-color: #f4f7f9;
             display: flex;
             min-height: 100vh;
-            color: var(--text-light);
+            color: var(--text-light); /* Cor de texto padrão do body */
         }
 
         /* LAYOUT (GRID) */
@@ -109,8 +110,9 @@
             grid-column: 2 / 3;
             background-color: #f4f7f9;
             padding: 20px;
-            color: #333;
-            width: 100%; /* Adicionado para garantir o layout adequado */
+            /* Corrigido para garantir que o texto de fundo seja claro */
+            color: var(--text-light); 
+            width: 100%;
             box-sizing: border-box;
         }
         
@@ -153,6 +155,8 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #495057;
+            /* Garante que o texto da célula seja visível */
+            color: var(--text-light); 
         }
 
         .route-table th {
@@ -188,4 +192,262 @@
         }
 
         .action-button {
-            background-color:
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9em;
+            margin-left: 5px;
+        }
+
+        .action-button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Estilo para o botão que causa o erro */
+        .error-button {
+            background-color: var(--alert-red);
+        }
+        
+        .error-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Estilos do Modal de Erro */
+        .error-modal {
+            display: none; /* Escondido por padrão */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* Fundo semi-transparente */
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 15% auto; /* 15% do topo e centralizado */
+            padding: 20px;
+            border: 1px solid var(--alert-red);
+            width: 80%; /* Pode ser ajustado */
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .modal-content h3 {
+            color: var(--alert-red);
+            margin-top: 0;
+        }
+
+        .modal-content p {
+            margin: 20px 0;
+            color: var(--text-subtle);
+        }
+
+        .close-button {
+            background-color: var(--alert-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .close-button:hover {
+            background-color: #c0392b;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <div class="sidebar">
+            <div class="logo">
+                <i class="material-icons">local_shipping</i> LOGISTI-TRACK
+            </div>
+            <div class="menu">
+                <div class="menu-item" data-module="visao-geral" data-file="index-completo.html">
+                    <i class="material-icons">dashboard</i> Visão Geral
+                </div>
+                <div class="menu-item" data-module="motoristas" data-file="motoristas.html">
+                    <i class="material-icons">person</i> Motoristas
+                </div>
+                <div class="menu-item" data-module="veiculos" data-file="veiculos.html">
+                    <i class="material-icons">directions_car</i> Veículos
+                </div>
+                <div class="menu-item" data-module="entregas" data-file="entregas.html">
+                    <i class="material-icons">inventory</i> Entregas
+                </div>
+                <div class="menu-item active" data-module="rotas" data-file="rotas.html">
+                    <i class="material-icons">route</i> Rotas
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <i class="material-icons">settings</i>
+                <i class="material-icons">help_outline</i>
+                <i class="material-icons">logout</i>
+            </div>
+        </div>
+
+        <div class="main-content">
+            
+            <div class="header">
+                <h2>PAINEL DE ROTAS - GESTÃO</h2>
+                <div class="user-menu">
+                    Gerente de Logística <i class="material-icons">arrow_drop_down</i>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                
+                <div class="card">
+                    <h3>Lista de Rotas Ativas e Planejadas</h3>
+                    
+                    <table class="route-table">
+                        <thead>
+                            <tr>
+                                <th>ID Rota</th>
+                                <th>Motorista</th>
+                                <th>Veículo</th>
+                                <th>Status</th>
+                                <th>Entregas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RT0014</td>
+                                <td>Motorista A</td>
+                                <td>Caminhão 03</td>
+                                <td><span class="status-badge status-active">Em Andamento</span></td>
+                                <td>15 / 20</td>
+                                <td>
+                                    <button class="action-button">Detalhes</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RT0015</td>
+                                <td>Motorista B</td>
+                                <td>Van 12</td>
+                                <td><span class="status-badge status-active">Em Andamento</span></td>
+                                <td>10 / 10</td>
+                                <td>
+                                    <button class="action-button">Detalhes</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RT0016</td>
+                                <td>Motorista C</td>
+                                <td>Caminhão 07</td>
+                                <td><span class="status-badge status-planned">Planejada</span></td>
+                                <td>0 / 18</td>
+                                <td>
+                                    <button class="action-button">Iniciar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RT0017</td>
+                                <td>Motorista D</td>
+                                <td>Caminhão 01</td>
+                                <td><span class="status-badge status-completed">Concluída</span></td>
+                                <td>25 / 25</td>
+                                <td>
+                                    <button class="action-button">Relatório</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RT0018</td>
+                                <td>Motorista E</td>
+                                <td>Van 05</td>
+                                <td><span class="status-badge status-planned">Planejada</span></td>
+                                <td>0 / 12</td>
+                                <td>
+                                    <button class="action-button">Iniciar</button>
+                                    <button class="action-button error-button" id="triggerErrorBtn">Forçar Erro</button> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h3>Visualização de Rotas no Mapa (Simulação)</h3>
+                    <div style="height: 300px; background-color: #2c313a; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--text-subtle);">
+                        <i class="material-icons" style="font-size: 48px; margin-right: 10px;">map</i>
+                        <span>Mapa Interativo de Rotas (Funcionalidade de Simulação)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="errorModal" class="error-modal">
+        <div class="modal-content">
+            <i class="material-icons" style="font-size: 40px; color: var(--alert-red);">warning</i>
+            <h3>ERRO CRÍTICO</h3>
+            <p><strong>Falha na Conexão do Sistema:</strong> Não foi possível processar a sua requisição. Tente novamente mais tarde ou contate o suporte técnico.</p>
+            <button class="close-button" id="closeErrorModalBtn">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Lógica da Sidebar e Navegação (Simulação)
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const fileName = this.getAttribute('data-file');
+                    
+                    if (fileName) {
+                        // Simula a navegação: Em um ambiente real, isso mudaria de página.
+                        // window.location.href = fileName;
+                        
+                        // Apenas para feedback visual nesta página única:
+                        alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
+                    }
+                });
+            });
+            
+            
+            // 2. Lógica do Modal de Erro
+            const triggerErrorBtn = document.getElementById('triggerErrorBtn');
+            const errorModal = document.getElementById('errorModal');
+            const closeErrorModalBtn = document.getElementById('closeErrorModalBtn');
+
+            // Abrir o modal ao clicar no botão "Forçar Erro"
+            if (triggerErrorBtn) {
+                triggerErrorBtn.addEventListener('click', function() {
+                    errorModal.style.display = 'block';
+                });
+            }
+
+            // Fechar o modal ao clicar no botão "Entendido"
+            if (closeErrorModalBtn) {
+                closeErrorModalBtn.addEventListener('click', function() {
+                    errorModal.style.display = 'none';
+                });
+            }
+
+            // Fechar o modal ao clicar fora dele
+            window.addEventListener('click', function(event) {
+                if (event.target === errorModal) {
+                    errorModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
