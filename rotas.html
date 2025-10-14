@@ -353,14 +353,14 @@
             // Elementos de Ação (Disparam o erro)
             const actionTriggers = document.querySelectorAll('.action-trigger');
 
-            // 1. Lógica da Sidebar (Apenas simula a navegação)
+            // 1. Lógica da Sidebar (Apenas simula a navegação sem erro)
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const dataModule = this.getAttribute('data-module');
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Apenas mostra o alerta de navegação, NÃO o erro.
+                        // Simula a navegação, SEM o alerta de erro.
                         alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
                     }
                 });
@@ -372,7 +372,7 @@
                 element.addEventListener('click', function(event) {
                     event.preventDefault(); 
                     
-                    // Obtém o texto do botão ou o título do ícone para a mensagem de erro
+                    // Obtém o texto do botão ou o título/conteúdo do ícone para a mensagem de erro
                     const actionText = element.tagName === 'BUTTON' ? element.textContent : element.title || element.innerText;
                     
                     // Exibe a mensagem de ERRO DE CONEXÃO
