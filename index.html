@@ -10,18 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* Estilos Globais e Reset (Adaptado para o Painel Principal) */
+        /* Estilos Globais e Reset (Ajustado para o esquema de cores) */
         :root {
             --dark-bg: #212529;
             --sidebar-color: #2c313a;
             --accent-blue: #3498db;
             --text-light: #ecf0f1;
             --text-subtle: #bdc3c7;
-            --card-bg: #ffffff; /* Alterado para Claro para melhor contraste no Main */
+            --card-bg: #ffffff; /* Fundo do Card: Branco */
             --alert-red: #e74c3c;
             --success-green: #2ecc71;
-            --primary-bg: #f4f7f9; /* Fundo do main-content (Claro) */
-            --text-dark: #333; /* Cor do texto principal (Escuro) */
+            --primary-bg: #f4f7f9; /* Fundo do main-content: Cinza Claro */
+            --text-dark: #333; /* Cor do texto principal: Preto/Escuro */
         }
 
         body {
@@ -31,7 +31,7 @@
             background-color: var(--primary-bg);
             display: flex;
             min-height: 100vh;
-            color: var(--text-dark); /* Cor do corpo ajustada para Claro/Escuro */
+            color: var(--text-dark); 
         }
 
         /* LAYOUT (GRID) */
@@ -159,8 +159,8 @@
         }
 
         .kpi-card {
-            background-color: var(--card-bg); /* Alterado para Claro */
-            color: var(--text-dark); /* Alterado para Escuro */
+            background-color: var(--card-bg); 
+            color: var(--text-dark); 
             padding: 20px;
             border-radius: 8px;
             flex: 1;
@@ -440,7 +440,7 @@
             
             // 1. Mapeamento para simular a navegação real de página
             const pageMap = {
-                // A página atual (Visão Geral) pode ser mapeada para 'index.html' ou 'painel.html', etc.
+                // Ao clicar, o navegador tentará ir para o arquivo .html correspondente.
                 'visao-geral': 'index.html', 
                 'motoristas': 'motoristas.html',
                 'veiculos': 'veiculos.html',
@@ -464,7 +464,6 @@
                         // Navega para o arquivo HTML correspondente (Ex: motoristas.html)
                         window.location.href = fileName;
                     }
-                    // O item ativo (active) será definido no código HTML de cada página
                 });
             });
             
@@ -472,9 +471,8 @@
             // --- Lógica do Erro Solicitado para Ações (.action-trigger) ---
             actionTriggers.forEach(element => {
                 element.addEventListener('click', function(event) {
-                    event.preventDefault(); // Impede o comportamento padrão (ex: link)
+                    event.preventDefault(); // Impede o comportamento padrão
                     
-                    // Obtém o texto do botão ou o título/conteúdo do ícone para a mensagem de erro
                     const actionText = element.tagName === 'BUTTON' ? element.textContent : element.title || element.innerText;
                     
                     // Exibe a mensagem de ERRO DE CONEXÃO
@@ -483,12 +481,14 @@
             });
 
 
-            // --- Inicialização do Gráfico (Chart.js) ---
+            // --- Inicialização do Gráfico (Chart.js) - CORES CORRIGIDAS ---
             const ctx = document.getElementById('deliveriesChart');
             
             if (ctx) {
                 const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
                 const data = [350, 480, 400, 520, 650, 450];
+                const gridColor = '#e0e0e0'; // Linhas de grade CLARAS
+                const tickColor = '#666';    // Rótulos de texto ESCUROS
 
                 new Chart(ctx, {
                     type: 'bar',
@@ -511,15 +511,18 @@
                                 beginAtZero: true,
                                 max: 1000,
                                 ticks: {
-                                    color: '#666'
+                                    // Corrigido: Texto visível
+                                    color: tickColor
                                 },
                                 grid: {
-                                    color: '#eee'
+                                    // Corrigido: Linhas de grade visíveis
+                                    color: gridColor 
                                 }
                             },
                             x: {
                                 ticks: {
-                                    color: '#666'
+                                    // Corrigido: Texto visível
+                                    color: tickColor
                                 },
                                 grid: {
                                     display: false
