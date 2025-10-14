@@ -29,7 +29,7 @@
             background-color: #f4f7f9;
             display: flex;
             min-height: 100vh;
-            color: var(--text-light); /* Cor de texto padrão do body */
+            color: var(--text-light); 
         }
 
         /* LAYOUT (GRID) */
@@ -110,7 +110,6 @@
             grid-column: 2 / 3;
             background-color: #f4f7f9;
             padding: 20px;
-            /* Corrigido para garantir que o texto de fundo seja claro */
             color: var(--text-light); 
             width: 100%;
             box-sizing: border-box;
@@ -155,7 +154,6 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #495057;
-            /* Garante que o texto da célula seja visível */
             color: var(--text-light); 
         }
 
@@ -234,7 +232,7 @@
             margin: 15% auto; /* 15% do topo e centralizado */
             padding: 20px;
             border: 1px solid var(--alert-red);
-            width: 80%; /* Pode ser ajustado */
+            width: 80%; 
             max-width: 400px;
             border-radius: 8px;
             text-align: center;
@@ -412,17 +410,14 @@
                     const fileName = this.getAttribute('data-file');
                     
                     if (fileName) {
-                        // Simula a navegação: Em um ambiente real, isso mudaria de página.
-                        // window.location.href = fileName;
-                        
-                        // Apenas para feedback visual nesta página única:
+                        // Simula a navegação para outros módulos
                         alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
                     }
                 });
             });
             
             
-            // 2. Lógica do Modal de Erro
+            // 2. Lógica do Modal de Erro (o que você pediu)
             const triggerErrorBtn = document.getElementById('triggerErrorBtn');
             const errorModal = document.getElementById('errorModal');
             const closeErrorModalBtn = document.getElementById('closeErrorModalBtn');
