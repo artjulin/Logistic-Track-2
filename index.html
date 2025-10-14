@@ -6,9 +6,163 @@
     <title>Logistic-Track | Painel Principal</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> 
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ================================= */
+        /* CSS Separado */
+        /* ================================= */
+
+        /* Estilos Globais e Reset */
+        :root {
+            --dark-bg: #212529;
+            --sidebar-color: #2c313a;
+            --accent-blue: #3498db;
+            --text-light: #ecf0f1;
+            --text-subtle: #bdc3c7;
+            --card-bg: #343a40;
+            --alert-red: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            display: flex;
+            min-height: 100vh;
+            color: var(--text-light);
+        }
+
+        /* --------------------------------- */
+        /* LAYOUT (GRID) */
+        /* --------------------------------- */
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr; /* Sidebar e Conteúdo Principal */
+            width: 100%;
+        }
+
+        /* --------------------------------- */
+        /* SIDEBAR */
+        /* --------------------------------- */
+        .sidebar {
+            background-color: var(--sidebar-color);
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            z-index: 10;
+        }
+
+        .logo {
+            padding: 0 20px 30px;
+            display: flex;
+            align-items: center;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.5em;
+            color: var(--accent-blue);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-left: 3px solid transparent;
+            color: var(--text-subtle);
+            font-size: 0.95em;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #3e4450;
+            color: var(--text-light);
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .menu-item i {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        /* Ícones inferiores (Ferramentas) */
+        .sidebar-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-around;
+        }
+        .sidebar-footer i {
+            color: var(--text-subtle);
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.2s;
+        }
+        .sidebar-footer i:hover {
+            color: var(--accent-blue);
+        }
+
+        /* --------------------------------- */
+        /* CONTEÚDO PRINCIPAL */
+        /* --------------------------------- */
+
+        .main-content {
+            grid-column: 2 / 3;
+            background-color: #f4f7f9;
+            padding: 20px;
+            color: #333;
+            display: none;
+        }
+
+        /* Visão Geral */
+        .visao-geral {
+            display: block;
+        }
+
+        .motoristas, .veiculos, .entregas, .rotas {
+            display: none;
+        }
+
+        .header {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .user-menu i {
+            margin-left: 8px;
+        }
+
+        /* Outras partes do código aqui ... */
+
+    </style>
 </head>
 <body>
 
@@ -51,136 +205,60 @@
                 </div>
             </div>
 
-            <div class="widgets-grid">
-                
-                <div class="left-column">
-                    
-                    <div class="kpi-cards">
-                        <div class="kpi-card">
-                            <h3>Veículos em Rota</h3>
-                            <div class="kpi-number">12</div>
-                            <button>Ver Detalhes</button>
-                        </div>
-                        <div class="kpi-card">
-                            <h3>Entregas Pendentes</h3>
-                            <div class="kpi-number">25</div>
-                            <button>Ver Detalhes</button>
-                        </div>
-                        <div class="kpi-card drivers-kpi">
-                            <h3>Motoristas Disponíveis</h3>
-                            <div class="kpi-number">14</div>
-                            <button>Gerenciar Escala</button>
-                        </div>
-                    </div>
-
-                    <div class="alerts-widget">
-                        <h3>Alertas Críticos</h3>
-                        
-                        <div class="alert-item">
-                            <div class="alert-info">
-                                <i class="material-icons alert-icon">error_outline</i>
-                                <div class="alert-details">
-                                    <strong>Colisão em Rota</strong>
-                                    <span>Acionou rastreio tênuo 23</span>
-                                </div>
-                            </div>
-                            <button class="alert-button">Resolver Ticket</button>
-                        </div>
-
-                        <div class="alert-item">
-                            <div class="alert-info">
-                                <i class="material-icons alert-icon">error_outline</i>
-                                <div class="alert-details">
-                                    <strong>Veículo Parado</strong>
-                                    <span>Parado por mais de 1h | Motorista Uadel Catota</span>
-                                </div>
-                            </div>
-                            <button class="alert-button">Resolver Ticket</button>
-                        </div>
-                        
-                        <div class="alert-item">
-                            <div class="alert-info">
-                                <i class="material-icons alert-icon">error_outline</i>
-                                <div class="alert-details">
-                                    <strong>Motorista em Detalina</strong>
-                                    <span>Relatório de Revisão de Rotas Pendente</span>
-                                </div>
-                            </div>
-                            <button class="alert-button">Resolver Ticket</button>
-                        </div>
-
-                        <div class="alert-item">
-                            <div class="alert-info">
-                                <i class="material-icons alert-icon">error_outline</i>
-                                <div class="alert-details">
-                                    <strong>Motorista em Oetiala</strong>
-                                    <span>Problema com coordenadas GPS</span>
-                                </div>
-                            </div>
-                            <button class="alert-button">Resolver Ticket</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="right-column">
-                    
-                    <div class="chart-widget">
-                        <h3>Desempenho Semanal de Entregas</h3>
-                        <canvas id="deliveriesChart"></canvas>
-                    </div>
-
-                    <div class="drivers-widget">
-                        <h3>Motoristas em Destaque</h3>
-                        
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista A em Oetiala</strong>
-                                    <span>Armou 08 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">95% Eficiência</span>
-                        </div>
-                        
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista B em Oetiala</strong>
-                                    <span>Armou 09 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">98% Eficiência</span>
-                        </div>
-
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista C em Detalina</strong>
-                                    <span>Armou 06 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">93% Eficiência</span>
-                        </div>
-
-                        <div class="driver-item">
-                            <div class="driver-info">
-                                <div class="driver-avatar"><i class="material-icons">person</i></div>
-                                <div class="driver-name">
-                                    <strong>Motorista D em Detalina</strong>
-                                    <span>Armou 08 Rotas</span>
-                                </div>
-                            </div>
-                            <span class="driver-efficiency">95% Eficiência</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="visao-geral">
+                <h3>Conteúdo da Visão Geral</h3>
+                <!-- Aqui pode adicionar os widgets para a visão geral -->
             </div>
+
+            <div class="motoristas">
+                <h3>Conteúdo dos Motoristas</h3>
+                <!-- Widgets ou listas de motoristas -->
+            </div>
+
+            <div class="veiculos">
+                <h3>Conteúdo dos Veículos</h3>
+                <!-- Widgets ou listas de veículos -->
+            </div>
+
+            <div class="entregas">
+                <h3>Conteúdo das Entregas</h3>
+                <!-- Widgets ou lista de entregas -->
+            </div>
+
+            <div class="rotas">
+                <h3>Conteúdo das Rotas</h3>
+                <!-- Widgets ou lista de rotas -->
+            </div>
+
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <script>
+        /* ================================= */
+        /* JAVASCRIPT Separado */
+        /* ================================= */
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Lógica para alternar a classe 'active' da Sidebar e exibir conteúdo correspondente
+            const menuItems = document.querySelectorAll('.menu-item');
+            const contentSections = document.querySelectorAll('.main-content > div');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove a classe 'active' de todos os itens
+                    menuItems.forEach(i => i.classList.remove('active'));
+
+                    // Adiciona a classe 'active' ao item clicado
+                    this.classList.add('active');
+
+                    // Oculta todas as seções de conteúdo
+                    contentSections.forEach(section => section.style.display = 'none');
+
+                    // Exibe a seção correspondente
+                    const module = this.getAttribute('data-module');
+                    const activeContent = document.querySelector(`.${module}`);
+                    activeContent.style.display = 'block';
+                });
+            });
+        });
