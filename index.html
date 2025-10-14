@@ -10,40 +10,38 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* Estilos Globais e Reset */
+        /* Estilos Globais e Reset (Adaptado para o Painel Principal) */
         :root {
             --dark-bg: #212529;
             --sidebar-color: #2c313a;
             --accent-blue: #3498db;
             --text-light: #ecf0f1;
             --text-subtle: #bdc3c7;
-            --card-bg: #343a40;
+            --card-bg: #ffffff; /* Alterado para Claro para melhor contraste no Main */
             --alert-red: #e74c3c;
             --success-green: #2ecc71;
+            --primary-bg: #f4f7f9; /* Fundo do main-content (Claro) */
+            --text-dark: #333; /* Cor do texto principal (Escuro) */
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f9;
+            background-color: var(--primary-bg);
             display: flex;
             min-height: 100vh;
-            color: var(--text-light);
+            color: var(--text-dark); /* Cor do corpo ajustada para Claro/Escuro */
         }
 
-        /* --------------------------------- */
         /* LAYOUT (GRID) */
-        /* --------------------------------- */
         .dashboard-container {
             display: grid;
             grid-template-columns: 250px 1fr;
             width: 100%;
         }
 
-        /* --------------------------------- */
         /* SIDEBAR */
-        /* --------------------------------- */
         .sidebar {
             background-color: var(--sidebar-color);
             padding-top: 20px;
@@ -60,6 +58,7 @@
             align-items: center;
             font-size: 1.4em;
             font-weight: 600;
+            color: var(--text-light);
         }
 
         .logo i {
@@ -68,6 +67,7 @@
             color: var(--accent-blue);
         }
 
+        /* ESTILO PARA BOTÕES DE NAVEGAÇÃO */
         .menu-item {
             display: flex;
             align-items: center;
@@ -99,6 +99,7 @@
             display: flex;
             justify-content: space-around;
         }
+        /* Ícones no footer são AÇÕES e disparam o erro (.action-trigger) */
         .sidebar-footer i {
             color: var(--text-subtle);
             cursor: pointer;
@@ -109,35 +110,33 @@
             color: var(--accent-blue);
         }
 
-        /* --------------------------------- */
         /* CONTEÚDO PRINCIPAL & HEADER */
-        /* --------------------------------- */
         .main-content {
             grid-column: 2 / 3;
-            background-color: #f4f7f9;
+            background-color: var(--primary-bg);
             padding: 20px;
-            color: #333;
+            color: var(--text-dark); 
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .header {
             background-color: var(--dark-bg);
             color: var(--text-light);
             padding: 15px 20px;
-            border-radius: 8px 8px 0 0;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-        
-        /* --------------------------------- */
+
         /* WIDGETS E GRIDS */
-        /* --------------------------------- */
         .widgets-grid {
             display: grid;
             grid-template-columns: 2fr 3fr;
             gap: 20px;
-            padding-top: 20px;
         }
 
         .left-column {
@@ -160,8 +159,8 @@
         }
 
         .kpi-card {
-            background-color: var(--card-bg);
-            color: var(--text-light);
+            background-color: var(--card-bg); /* Alterado para Claro */
+            color: var(--text-dark); /* Alterado para Escuro */
             padding: 20px;
             border-radius: 8px;
             flex: 1;
@@ -180,19 +179,25 @@
         }
         
         .kpi-card button {
-            background-color: #495057;
+            /* Botões de Ação KPI disparam erro */
+            background-color: var(--accent-blue); 
             color: white;
             border: none;
             padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .kpi-card button:hover {
+            background-color: #2980b9;
         }
 
         /* Alertas */
         .alerts-widget {
             background-color: var(--card-bg);
-            color: var(--text-light);
+            color: var(--text-dark);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -207,7 +212,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 12px 0;
-            border-bottom: 1px solid #495057;
+            border-bottom: 1px solid #ddd;
         }
 
         .alert-info {
@@ -222,53 +227,40 @@
 
         .alert-details span {
             font-size: 0.85em;
-            color: var(--text-subtle);
+            color: #666; 
         }
         
-        /* Gráfico */
-        .chart-widget {
+        .alert-button {
+            /* Botões de Alerta disparam erro */
+            background-color: var(--alert-red); 
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background-color 0.2s;
+        }
+
+        .alert-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Gráfico e Motoristas */
+        .chart-widget, .drivers-widget {
             background-color: var(--card-bg);
-            color: var(--text-light);
+            color: var(--text-dark);
             padding: 20px;
             border-radius: 8px;
-            height: 350px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Motoristas em Destaque */
-        .drivers-widget {
-            background-color: var(--card-bg);
-            color: var(--text-light);
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .driver-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #495057;
-        }
-
-        .driver-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--accent-blue);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 15px;
+        .drivers-widget .driver-item {
+            border-bottom: 1px solid #ddd;
         }
 
         .driver-name span {
-            font-size: 0.85em;
-            color: var(--text-subtle);
-        }
-
-        .driver-efficiency {
-            font-weight: bold;
-            color: var(--success-green);
+            color: #666;
         }
     </style>
 </head>
@@ -281,26 +273,26 @@
                 <i class="material-icons">local_shipping</i> LOGISTI-TRACK
             </div>
             <div class="menu">
-                <div class="menu-item active" data-module="visao-geral">
+                <div class="menu-item active" data-file="index.html">
                     <i class="material-icons">dashboard</i> Visão Geral
                 </div>
-                <div class="menu-item" data-module="motoristas">
+                <div class="menu-item" data-file="motoristas.html">
                     <i class="material-icons">person</i> Motoristas
                 </div>
-                <div class="menu-item" data-module="veiculos">
+                <div class="menu-item" data-file="veiculos.html">
                     <i class="material-icons">directions_car</i> Veículos
                 </div>
-                <div class="menu-item" data-module="entregas">
+                <div class="menu-item" data-file="entregas.html">
                     <i class="material-icons">inventory</i> Entregas
                 </div>
-                <div class="menu-item" data-module="rotas">
+                <div class="menu-item" data-file="rotas.html">
                     <i class="material-icons">route</i> Rotas
                 </div>
             </div>
             <div class="sidebar-footer">
-                <i class="material-icons">settings</i>
-                <i class="material-icons">help_outline</i>
-                <i class="material-icons">logout</i>
+                <i class="material-icons action-trigger" title="Configurações">settings</i>
+                <i class="material-icons action-trigger" title="Ajuda">help_outline</i>
+                <i class="material-icons action-trigger" title="Sair">logout</i>
             </div>
         </div>
 
@@ -321,17 +313,17 @@
                         <div class="kpi-card">
                             <h3>Veículos em Rota</h3>
                             <div class="kpi-number">12</div>
-                            <button>Ver Detalhes</button>
+                            <button class="action-button action-trigger">Ver Detalhes</button>
                         </div>
                         <div class="kpi-card">
                             <h3>Entregas Pendentes</h3>
                             <div class="kpi-number">25</div>
-                            <button>Ver Detalhes</button>
+                            <button class="action-button action-trigger">Ver Detalhes</button>
                         </div>
                         <div class="kpi-card drivers-kpi">
                             <h3>Motoristas Disponíveis</h3>
                             <div class="kpi-number">14</div>
-                            <button>Gerenciar Escala</button>
+                            <button class="action-button action-trigger">Gerenciar Escala</button>
                         </div>
                     </div>
 
@@ -346,7 +338,7 @@
                                     <span>Acionou rastreio tênuo 23</span>
                                 </div>
                             </div>
-                            <button class="alert-button">Resolver Ticket</button>
+                            <button class="alert-button action-trigger">Resolver Ticket</button>
                         </div>
 
                         <div class="alert-item">
@@ -357,7 +349,7 @@
                                     <span>Parado por mais de 1h | Motorista Uadel Catota</span>
                                 </div>
                             </div>
-                            <button class="alert-button">Resolver Ticket</button>
+                            <button class="alert-button action-trigger">Resolver Ticket</button>
                         </div>
                         
                         <div class="alert-item">
@@ -368,7 +360,7 @@
                                     <span>Relatório de Revisão de Rotas Pendente</span>
                                 </div>
                             </div>
-                            <button class="alert-button">Resolver Ticket</button>
+                            <button class="alert-button action-trigger">Resolver Ticket</button>
                         </div>
 
                         <div class="alert-item">
@@ -379,7 +371,7 @@
                                     <span>Problema com coordenadas GPS</span>
                                 </div>
                             </div>
-                            <button class="alert-button">Resolver Ticket</button>
+                            <button class="alert-button action-trigger">Resolver Ticket</button>
                         </div>
                     </div>
                 </div>
@@ -446,32 +438,52 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // Mapeamento para simular a navegação
+            // 1. Mapeamento para simular a navegação real de página
             const pageMap = {
-                'visao-geral': 'index-completo.html', // O nome deste arquivo
+                // A página atual (Visão Geral) pode ser mapeada para 'index.html' ou 'painel.html', etc.
+                'visao-geral': 'index.html', 
                 'motoristas': 'motoristas.html',
                 'veiculos': 'veiculos.html',
                 'entregas': 'entregas.html',
                 'rotas': 'rotas.html'
             };
             
-            // 1. Lógica da Sidebar e Navegação
+            // Elementos de Navegação da Sidebar
             const menuItems = document.querySelectorAll('.menu-item');
             
+            // Elementos de Ação que disparam o erro
+            const actionTriggers = document.querySelectorAll('.action-trigger');
+
+            // --- Lógica de Navegação da Sidebar (Sem Interrupção/Erro) ---
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const dataModule = this.getAttribute('data-module');
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Navega para o arquivo correspondente
+                        // Navega para o arquivo HTML correspondente (Ex: motoristas.html)
                         window.location.href = fileName;
                     }
+                    // O item ativo (active) será definido no código HTML de cada página
                 });
             });
             
             
-            // 2. Inicializa o gráfico de Desempenho (Chart.js)
+            // --- Lógica do Erro Solicitado para Ações (.action-trigger) ---
+            actionTriggers.forEach(element => {
+                element.addEventListener('click', function(event) {
+                    event.preventDefault(); // Impede o comportamento padrão (ex: link)
+                    
+                    // Obtém o texto do botão ou o título/conteúdo do ícone para a mensagem de erro
+                    const actionText = element.tagName === 'BUTTON' ? element.textContent : element.title || element.innerText;
+                    
+                    // Exibe a mensagem de ERRO DE CONEXÃO
+                    alert(`⚠️ ERRO DE CONEXÃO: Não foi possível completar a ação "${actionText.trim()}". Tente novamente mais tarde.`);
+                });
+            });
+
+
+            // --- Inicialização do Gráfico (Chart.js) ---
             const ctx = document.getElementById('deliveriesChart');
             
             if (ctx) {
@@ -499,15 +511,15 @@
                                 beginAtZero: true,
                                 max: 1000,
                                 ticks: {
-                                    color: 'var(--text-subtle)'
+                                    color: '#666'
                                 },
                                 grid: {
-                                    color: '#495057'
+                                    color: '#eee'
                                 }
                             },
                             x: {
                                 ticks: {
-                                    color: 'var(--text-subtle)'
+                                    color: '#666'
                                 },
                                 grid: {
                                     display: false
