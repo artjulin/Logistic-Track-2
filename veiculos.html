@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic-Track | Veículos</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ================================= */
+        /* CSS Baseado no Tema Escuro da Sidebar e Claro do Conteúdo */
+        /* ================================= */
+        :root {
+            --primary-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --sidebar-color: #2c313a; /* Usando cor escura para a sidebar */
+            --accent-blue: #3498db;
+            --highlight-green: #2ecc71;
+            --highlight-orange: #f39c12;
+            --alert-red: #e74c3c;
+            --text-light: #ecf0f1;
+            --text-dark: #2d3436;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+        }
+
+        /* --------------------------------- */
+        /* SIDEBAR (Estilos consistentes) */
+        /* --------------------------------- */
+        .sidebar {
+            background-color: var(--sidebar-color);
+            color: var(--text-light);
+            width: 240px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.6em;
+            font-weight: bold;
+            padding-left: 20px;
+            padding-bottom: 30px;
+            color: var(--accent-blue);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #3e4450;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .menu-item i {
+            margin-right: 12px;
+        }
+        
+        /* --------------------------------- */
+        /* CONTEÚDO PRINCIPAL E HEADER */
+        /* --------------------------------- */
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+            flex-grow: 1;
+            background-color: var(--primary-bg);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 1.6em;
+        }
+
+        /* --------------------------------- */
+        /* Tabela de Veículos (Lista) */
+        /* --------------------------------- */
+        .vehicles-table-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .vehicles-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .vehicles-table thead {
+            background-color: #f1f1f1;
+            color: var(--text-dark);
+            text-align: left;
+        }
+
+        .vehicles-table th, .vehicles-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .vehicles-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Status Tags */
+        .status-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-tag.rota {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+        
+        .status-tag.parado {
+            background-color: var(--highlight-orange);
+            color: white;
+        }
+        
+        .status-tag.manutencao {
+            background-color: var(--alert-red);
+            color: white;
+        }
+        
+        .status-tag.disponivel {
+            background-color: var(--highlight-green);
+            color: white;
+        }
+
+        /* Ações na Tabela */
+        .action-button {
+            background: none;
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        
+        .action-button:hover {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="material-icons">local_shipping</i> LOGISTI-TRACK
+        </div>
+        <div class="menu">
+            <div class="menu-item" data-module="visao-geral">
+                <i class="material-icons">dashboard</i> Visão Geral
+            </div>
+            <div class="menu-item" data-module="motoristas">
+                <i class="material-icons">person</i> Motoristas
+            </div>
+            <div class="menu-item active" data-module="veiculos">
+                <i class="material-icons">directions_car</i> Veículos
+            </div>
+            <div class="menu-item" data-module="entregas">
+                <i class="material-icons">inventory</i> Entregas
+            </div>
+            <div class="menu-item" data-module="rotas">
+                <i class="material-icons">route</i> Rotas
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2>Gestão de Veículos</h2>
+            <div class="user-menu">
+                Gerente de Logística <i class="material-icons">arrow_drop_down</i>
+            </div>
+        </div>
+
+        <div class="vehicles-table-container">
+            <table class="vehicles-table">
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Modelo</th>
+                        <th>Motorista</th>
+                        <th>Status</th>
+                        <th>Próx. Manut.</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>**ABC-1234**</td>
+                        <td>Mercedes-Benz Accelo</td>
+                        <td>Motorista A</td>
+                        <td><span class="status-tag rota">Em Rota</span></td>
+                        <td>25/Out</td>
+                        <td><button class="action-button">Rastrear</button></td>
+                    </tr>
+                    <tr>
+                        <td>**DEF-5678**</td>
+                        <td>Iveco Daily</td>
+                        <td>Motorista B</td>
+                        <td><span class="status-tag disponivel">Disponível</span></td>
+                        <td>10/Nov</td>
+                        <td><button class="action-button">Alocar</button></td>
+                    </tr>
+                    <tr>
+                        <td>**GHI-9012**</td>
+                        <td>Volkswagen Delivery</td>
+                        <td>Nenhum</td>
+                        <td><span class="status-tag manutencao">Manutenção</span></td>
+                        <td>01/Dez</td>
+                        <td><button class="action-button">Detalhes</button></td>
+                    </tr>
+                    <tr>
+                        <td>**JKL-3456**</td>
+                        <td>Ford Cargo</td>
+                        <td>Motorista C</td>
+                        <td><span class="status-tag parado">Parado (Pátio)</span></td>
+                        <td>15/Nov</td>
+                        <td><button class="action-button">Rastrear</button></td>
+                    </tr>
+                    <tr>
+                        <td>**MNO-7890**</td>
+                        <td>Volvo VM</td>
+                        <td>Motorista D</td>
+                        <td><span class="status-tag rota">Em Rota</span></td>
+                        <td>28/Out</td>
+                        <td><button class="action-button">Rastrear</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Simulação de mapeamento de páginas para navegação
+            const pageMap = {
+                'visao-geral': 'index.html',
+                'motoristas': 'motoristas.html',
+                'veiculos': 'veiculos.html', // Esta página
+                'entregas': 'entregas.html',
+                'rotas': 'rotas.html'
+            };
+            
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const dataModule = this.getAttribute('data-module');
+                    const fileName = pageMap[dataModule];
+                    
+                    if (fileName) {
+                        // Navega para o arquivo correspondente
+                        window.location.href = fileName;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
