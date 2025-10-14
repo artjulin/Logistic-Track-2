@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic-Track | Entregas</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ================================= */
+        /* CSS Baseado no Tema Escuro da Sidebar e Claro do Conteúdo */
+        /* ================================= */
+        :root {
+            --primary-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --sidebar-color: #2c313a;
+            --accent-blue: #3498db;
+            --highlight-green: #2ecc71;
+            --highlight-orange: #f39c12;
+            --alert-red: #e74c3c;
+            --text-light: #ecf0f1;
+            --text-dark: #2d3436;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+        }
+
+        /* --------------------------------- */
+        /* SIDEBAR (Estilos consistentes) */
+        /* --------------------------------- */
+        .sidebar {
+            background-color: var(--sidebar-color);
+            color: var(--text-light);
+            width: 240px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.6em;
+            font-weight: bold;
+            padding-left: 20px;
+            padding-bottom: 30px;
+            color: var(--accent-blue);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #3e4450;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .menu-item i {
+            margin-right: 12px;
+        }
+        
+        /* --------------------------------- */
+        /* CONTEÚDO PRINCIPAL E HEADER */
+        /* --------------------------------- */
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+            flex-grow: 1;
+            background-color: var(--primary-bg);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 1.6em;
+        }
+
+        /* --------------------------------- */
+        /* Tabela de Entregas */
+        /* --------------------------------- */
+        .deliveries-table-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .deliveries-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .deliveries-table thead {
+            background-color: #f1f1f1;
+            color: var(--text-dark);
+            text-align: left;
+        }
+
+        .deliveries-table th, .deliveries-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.95em;
+        }
+
+        .deliveries-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Status Tags */
+        .status-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .status-tag.concluida {
+            background-color: var(--highlight-green);
+            color: white;
+        }
+        
+        .status-tag.em-rota {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+        
+        .status-tag.pendente {
+            background-color: var(--highlight-orange);
+            color: white;
+        }
+        
+        .status-tag.problema {
+            background-color: var(--alert-red);
+            color: white;
+        }
+
+        /* Ações na Tabela */
+        .action-button {
+            background: none;
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+            margin-right: 5px;
+        }
+        
+        .action-button:hover {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="material-icons">local_shipping</i> LOGISTI-TRACK
+        </div>
+        <div class="menu">
+            <div class="menu-item" data-module="visao-geral">
+                <i class="material-icons">dashboard</i> Visão Geral
+            </div>
+            <div class="menu-item" data-module="motoristas">
+                <i class="material-icons">person</i> Motoristas
+            </div>
+            <div class="menu-item" data-module="veiculos">
+                <i class="material-icons">directions_car</i> Veículos
+            </div>
+            <div class="menu-item active" data-module="entregas">
+                <i class="material-icons">inventory</i> Entregas
+            </div>
+            <div class="menu-item" data-module="rotas">
+                <i class="material-icons">route</i> Rotas
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2>Rastreamento e Gestão de Entregas</h2>
+            <div class="user-menu">
+                Gerente de Logística <i class="material-icons">arrow_drop_down</i>
+            </div>
+        </div>
+
+        <div class="deliveries-table-container">
+            <table class="deliveries-table">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>Destinatário</th>
+                        <th>Motorista</th>
+                        <th>Veículo</th>
+                        <th>Status</th>
+                        <th>Última Atualização</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#001005</td>
+                        <td>Loja Alpha</td>
+                        <td>Motorista A</td>
+                        <td>ABC-1234</td>
+                        <td><span class="status-tag concluida">Concluída</span></td>
+                        <td>10:30 (Assinado)</td>
+                        <td><button class="action-button action-error">Ver Comprovante</button></td>
+                    </tr>
+                    <tr>
+                        <td>#001006</td>
+                        <td>Cliente Beta</td>
+                        <td>Motorista D</td>
+                        <td>MNO-7890</td>
+                        <td><span class="status-tag em-rota">Em Rota (3/5)</span></td>
+                        <td>10:45 (GPS)</td>
+                        <td><button class="action-button action-error">Acompanhar</button></td>
+                    </tr>
+                    <tr>
+                        <td>#001007</td>
+                        <td>Distrib. Gama</td>
+                        <td>Motorista B</td>
+                        <td>DEF-5678</td>
+                        <td><span class="status-tag pendente">Aguardando Saída</span></td>
+                        <td>08:00 (Check-in)</td>
+                        <td><button class="action-button action-error">Despachar</button></td>
+                    </tr>
+                    <tr>
+                        <td>#001008</td>
+                        <td>Comércio Delta</td>
+                        <td>Motorista C</td>
+                        <td>JKL-3456</td>
+                        <td><span class="status-tag problema">Endereço Incorreto</span></td>
+                        <td>09:15 (Motorista)</td>
+                        <td><button class="action-button action-error">Re-Rota</button></td>
+                    </tr>
+                    <tr>
+                        <td>#001009</td>
+                        <td>Loja Epsilon</td>
+                        <td>Motorista A</td>
+                        <td>ABC-1234</td>
+                        <td><span class="status-tag em-rota">Em Rota (5/5)</span></td>
+                        <td>10:50 (GPS)</td>
+                        <td><button class="action-button action-error">Acompanhar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Simulação de mapeamento de páginas para navegação
+            const pageMap = {
+                'visao-geral': 'index.html',
+                'motoristas': 'motoristas.html',
+                'veiculos': 'veiculos.html',
+                'entregas': 'entregas.html', // Esta página
+                'rotas': 'rotas.html'
+            };
+            
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            // 1. Lógica da Sidebar
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const dataModule = this.getAttribute('data-module');
+                    const fileName = pageMap[dataModule];
+                    
+                    if (fileName) {
+                        window.location.href = fileName;
+                    }
+                });
+            });
+            
+            // 2. Lógica do Erro Solicitado
+            const errorButtons = document.querySelectorAll('.action-error');
+
+            errorButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); // Evita qualquer ação padrão
+                    const actionText = this.textContent;
+
+                    // Exibe a mensagem de erro
+                    alert(`ERRO DE CONEXÃO: Não foi possível completar a ação "${actionText}". Tente novamente mais tarde.`);
+                    
+                    // Opcional: Log no console para simular o erro
+                    console.error(`Falha na API: Ação "${actionText}" não pode ser executada.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
