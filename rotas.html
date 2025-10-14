@@ -15,10 +15,10 @@
             --accent-blue: #3498db;
             --text-light: #ecf0f1;
             --text-subtle: #bdc3c7;
-            --card-bg: #ffffff; /* Fundo do Card (Claro) */
+            --card-bg: #ffffff; 
             --alert-red: #e74c3c;
             --success-green: #2ecc71;
-            --primary-bg: #f4f7f9; /* Fundo do main-content (Claro) */
+            --primary-bg: #f4f7f9; 
             --text-dark: #333;
         }
 
@@ -276,7 +276,7 @@
                                 <td><span class="status-badge status-active">Em Andamento</span></td>
                                 <td>15 / 20</td>
                                 <td>
-                                    <button class="action-button **action-trigger**">Detalhes</button>
+                                    <button class="action-button action-trigger">Detalhes</button>
                                 </td>
                             </tr>
                             <tr>
@@ -286,7 +286,7 @@
                                 <td><span class="status-badge status-active">Em Andamento</span></td>
                                 <td>10 / 10</td>
                                 <td>
-                                    <button class="action-button **action-trigger**">Detalhes</button>
+                                    <button class="action-button action-trigger">Detalhes</button>
                                 </td>
                             </tr>
                             <tr>
@@ -296,7 +296,7 @@
                                 <td><span class="status-badge status-planned">Planejada</span></td>
                                 <td>0 / 18</td>
                                 <td>
-                                    <button class="action-button **action-trigger**">Iniciar</button>
+                                    <button class="action-button action-trigger">Iniciar</button>
                                 </td>
                             </tr>
                             <tr>
@@ -306,7 +306,7 @@
                                 <td><span class="status-badge status-completed">Concluída</span></td>
                                 <td>25 / 25</td>
                                 <td>
-                                    <button class="action-button **action-trigger**">Relatório</button>
+                                    <button class="action-button action-trigger">Relatório</button>
                                 </td>
                             </tr>
                             <tr>
@@ -316,7 +316,7 @@
                                 <td><span class="status-badge status-planned">Planejada</span></td>
                                 <td>0 / 12</td>
                                 <td>
-                                    <button class="action-button **action-trigger**">Iniciar</button>
+                                    <button class="action-button action-trigger">Iniciar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -338,31 +338,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // Simulação de mapeamento de páginas para navegação
-            const pageMap = {
-                'visao-geral': 'index.html',
-                'motoristas': 'motoristas.html',
-                'veiculos': 'veiculos.html',
-                'entregas': 'entregas.html',
-                'rotas': 'rotas.html'
-            };
-
             // Elementos de Navegação (NÃO disparam o erro)
             const menuItems = document.querySelectorAll('.menu-item');
             
             // Elementos de Ação (Disparam o erro - classe .action-trigger)
             const actionTriggers = document.querySelectorAll('.action-trigger');
 
-            // 1. Lógica da Sidebar (Apenas simula a navegação sem erro)
+            // 1. Lógica da Sidebar (Simula a navegação sem interrupção e sem erro)
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    const dataModule = this.getAttribute('data-module');
-                    const fileName = pageMap[dataModule];
                     
-                    if (fileName) {
-                        // Apenas simula a navegação, sem erro.
-                        alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
-                    }
+                    // 1. Remove a classe 'active' de todos os itens
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    
+                    // 2. Adiciona a classe 'active' ao item clicado
+                    this.classList.add('active');
+                    
+                    // 3. (Opcional) Log para saber onde "navegou"
+                    console.log('Navegação: ' + this.textContent.trim());
+                    
+                    // **NENHUM ALERT AQUI PARA GARANTIR A NAVEGAÇÃO ININTERRUPTA**
                 });
             });
             
