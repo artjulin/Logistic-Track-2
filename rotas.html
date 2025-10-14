@@ -15,10 +15,11 @@
             --accent-blue: #3498db;
             --text-light: #ecf0f1;
             --text-subtle: #bdc3c7;
-            --card-bg: #343a40;
+            --card-bg: #ffffff; /* Fundo do Card (Claro) */
             --alert-red: #e74c3c;
             --success-green: #2ecc71;
             --primary-bg: #f4f7f9; /* Fundo do main-content (Claro) */
+            --text-dark: #333;
         }
 
         body {
@@ -63,6 +64,7 @@
             color: var(--accent-blue);
         }
 
+        /* ESTILO PARA BOTÕES DE NAVEGAÇÃO */
         .menu-item {
             display: flex;
             align-items: center;
@@ -94,7 +96,7 @@
             display: flex;
             justify-content: space-around;
         }
-        /* Os ícones aqui são acionadores de ação e terão a classe .action-trigger */
+        /* Ícones no footer são AÇÕES e disparam o erro */
         .sidebar-footer i {
             color: var(--text-subtle);
             cursor: pointer;
@@ -110,8 +112,7 @@
             grid-column: 2 / 3;
             background-color: var(--primary-bg);
             padding: 20px;
-            /* O texto principal fora dos cards deve ser escuro no fundo claro */
-            color: var(--text-dark, #333); 
+            color: var(--text-dark); 
             width: 100%;
             box-sizing: border-box;
         }
@@ -138,8 +139,7 @@
         /* Estilo Geral de Card */
         .card {
             background-color: var(--card-bg);
-            /* O texto DENTRO do card deve ser escuro no fundo claro */
-            color: var(--text-dark, #333); 
+            color: var(--text-dark); 
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -156,7 +156,7 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            color: inherit; /* Garante que o texto use a cor do card (escuro) */
+            color: inherit; 
         }
 
         .route-table th {
@@ -191,6 +191,7 @@
             color: var(--dark-bg);
         }
 
+        /* ESTILO PARA BOTÕES DE AÇÃO */
         .action-button {
             background: none;
             border: 1px solid var(--accent-blue);
@@ -236,9 +237,9 @@
                 </div>
             </div>
             <div class="sidebar-footer">
-                <i class="material-icons action-trigger">settings</i>
-                <i class="material-icons action-trigger">help_outline</i>
-                <i class="material-icons action-trigger">logout</i>
+                <i class="material-icons action-trigger" title="Configurações">settings</i>
+                <i class="material-icons action-trigger" title="Ajuda">help_outline</i>
+                <i class="material-icons action-trigger" title="Sair">logout</i>
             </div>
         </div>
 
@@ -359,7 +360,7 @@
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Simula a navegação
+                        // Apenas mostra o alerta de navegação, NÃO o erro.
                         alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
                     }
                 });
@@ -371,10 +372,10 @@
                 element.addEventListener('click', function(event) {
                     event.preventDefault(); 
                     
-                    // Obtém o texto do botão ou o nome do ícone (para melhor feedback)
+                    // Obtém o texto do botão ou o título do ícone para a mensagem de erro
                     const actionText = element.tagName === 'BUTTON' ? element.textContent : element.title || element.innerText;
                     
-                    // Exibe a mensagem de erro (usando alert, como no seu exemplo)
+                    // Exibe a mensagem de ERRO DE CONEXÃO
                     alert(`⚠️ ERRO DE CONEXÃO: Não foi possível completar a ação "${actionText.trim()}". Tente novamente mais tarde.`);
                 });
             });
