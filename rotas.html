@@ -395,9 +395,12 @@
             // Elementos do Modal de Erro
             const errorModal = document.getElementById('errorModal');
             const closeErrorModalBtn = document.getElementById('closeErrorModalBtn');
-            // Elementos de Ação
-            const menuItems = document.querySelectorAll('.menu-item');
+            
+            // Elementos de Ação (que disparam o erro)
             const actionTriggers = document.querySelectorAll('.action-trigger');
+            
+            // Elementos de Navegação (que NÃO disparam o erro)
+            const menuItems = document.querySelectorAll('.menu-item');
 
             
             // Lógica de Abertura do Modal para TODOS os botões de Ação (.action-trigger)
@@ -407,7 +410,7 @@
                 });
             });
 
-            // Lógica da Sidebar (Não dispara o erro, apenas simula a navegação)
+            // Lógica da Sidebar (Simula a navegação sem disparar o erro)
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const fileName = this.getAttribute('data-file');
