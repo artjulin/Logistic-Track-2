@@ -64,7 +64,7 @@
             color: var(--accent-blue);
         }
 
-        /* ESTILO PARA BOTÕES DE NAVEGAÇÃO */
+        /* ESTILO PARA BOTÕES DE NAVEGAÇÃO (.menu-item) */
         .menu-item {
             display: flex;
             align-items: center;
@@ -96,7 +96,7 @@
             display: flex;
             justify-content: space-around;
         }
-        /* Ícones no footer são AÇÕES e disparam o erro */
+        /* Ícones no footer são AÇÕES e disparam o erro (.action-trigger) */
         .sidebar-footer i {
             color: var(--text-subtle);
             cursor: pointer;
@@ -191,7 +191,7 @@
             color: var(--dark-bg);
         }
 
-        /* ESTILO PARA BOTÕES DE AÇÃO */
+        /* ESTILO PARA BOTÕES DE AÇÃO (.action-trigger) */
         .action-button {
             background: none;
             border: 1px solid var(--accent-blue);
@@ -276,7 +276,7 @@
                                 <td><span class="status-badge status-active">Em Andamento</span></td>
                                 <td>15 / 20</td>
                                 <td>
-                                    <button class="action-button action-trigger">Detalhes</button>
+                                    <button class="action-button **action-trigger**">Detalhes</button>
                                 </td>
                             </tr>
                             <tr>
@@ -286,7 +286,7 @@
                                 <td><span class="status-badge status-active">Em Andamento</span></td>
                                 <td>10 / 10</td>
                                 <td>
-                                    <button class="action-button action-trigger">Detalhes</button>
+                                    <button class="action-button **action-trigger**">Detalhes</button>
                                 </td>
                             </tr>
                             <tr>
@@ -296,7 +296,7 @@
                                 <td><span class="status-badge status-planned">Planejada</span></td>
                                 <td>0 / 18</td>
                                 <td>
-                                    <button class="action-button action-trigger">Iniciar</button>
+                                    <button class="action-button **action-trigger**">Iniciar</button>
                                 </td>
                             </tr>
                             <tr>
@@ -306,7 +306,7 @@
                                 <td><span class="status-badge status-completed">Concluída</span></td>
                                 <td>25 / 25</td>
                                 <td>
-                                    <button class="action-button action-trigger">Relatório</button>
+                                    <button class="action-button **action-trigger**">Relatório</button>
                                 </td>
                             </tr>
                             <tr>
@@ -316,7 +316,7 @@
                                 <td><span class="status-badge status-planned">Planejada</span></td>
                                 <td>0 / 12</td>
                                 <td>
-                                    <button class="action-button action-trigger">Iniciar</button>
+                                    <button class="action-button **action-trigger**">Iniciar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -350,7 +350,7 @@
             // Elementos de Navegação (NÃO disparam o erro)
             const menuItems = document.querySelectorAll('.menu-item');
             
-            // Elementos de Ação (Disparam o erro)
+            // Elementos de Ação (Disparam o erro - classe .action-trigger)
             const actionTriggers = document.querySelectorAll('.action-trigger');
 
             // 1. Lógica da Sidebar (Apenas simula a navegação sem erro)
@@ -360,7 +360,7 @@
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Simula a navegação, SEM o alerta de erro.
+                        // Apenas simula a navegação, sem erro.
                         alert('Navegando para: ' + fileName + '\n(Simulação de troca de página)');
                     }
                 });
