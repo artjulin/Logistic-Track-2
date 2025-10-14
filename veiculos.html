@@ -31,7 +31,7 @@
             background-color: var(--primary-bg);
             color: var(--text-dark);
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         /* --------------------------------- */
@@ -48,13 +48,21 @@
             padding-top: 20px;
             padding-bottom: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
         }
 
         .logo {
             font-size: 1.6em;
             font-weight: bold;
-            padding-left: 20px;
-            padding-bottom: 30px;
+            padding: 0 20px 30px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.5em;
             color: var(--accent-blue);
         }
 
@@ -65,13 +73,19 @@
             cursor: pointer;
             color: var(--text-light);
             font-size: 1em;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, border-left 0.3s ease;
             border-left: 3px solid transparent;
         }
 
-        .menu-item:hover, .menu-item.active {
+        .menu-item:hover {
+            background-color: #3e4450;
+        }
+
+        /* Estilo para o item ATIVO */
+        .menu-item.active {
             background-color: #3e4450;
             border-left: 3px solid var(--accent-blue);
+            font-weight: 600;
         }
 
         .menu-item i {
@@ -86,13 +100,15 @@
             padding: 30px;
             flex-grow: 1;
             background-color: var(--primary-bg);
+            width: calc(100% - 240px);
+            box-sizing: border-box;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 15px 20px;
             background-color: var(--dark-bg);
             color: var(--text-light);
             border-radius: 8px;
@@ -278,24 +294,45 @@
             
             // Simulação de mapeamento de páginas para navegação
             const pageMap = {
+                // Ao clicar, o navegador tentará ir para o arquivo .html correspondente.
                 'visao-geral': 'index.html',
                 'motoristas': 'motoristas.html',
-                'veiculos': 'veiculos.html', // Esta página
+                'veiculos': 'veiculos.html', 
                 'entregas': 'entregas.html',
                 'rotas': 'rotas.html'
             };
             
             const menuItems = document.querySelectorAll('.menu-item');
-            
+            const actionButtons = document.querySelectorAll('.action-button');
+
+            // --- Lógica de Navegação da Sidebar ---
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const dataModule = this.getAttribute('data-module');
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Navega para o arquivo correspondente
+                        // 1. Remove a classe 'active' de todos os itens
+                        menuItems.forEach(i => i.classList.remove('active'));
+                        
+                        // 2. Adiciona a classe 'active' ao item clicado para realce visual
+                        this.classList.add('active');
+                        
+                        // 3. Simula a navegação para o novo arquivo HTML
                         window.location.href = fileName;
                     }
+                });
+            });
+
+            // --- Lógica de Ação dos Botões da Tabela (Alerta de Simulação) ---
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Pega a placa do veículo na mesma linha (elemento pai <tr>)
+                    const row = this.closest('tr');
+                    const placa = row.cells[0].textContent.trim();
+                    const actionText = this.textContent.trim();
+
+                    alert(`Ação simulada: "${actionText}" para o veículo de placa ${placa}. Você precisa implementar a funcionalidade completa!`);
                 });
             });
         });
