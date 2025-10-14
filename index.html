@@ -255,6 +255,19 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        /* AJUSTE PARA O TAMANHO NORMAL DO GRÁFICO: REMOVIDA A ALTURA FIXA */
+        .chart-widget {
+            /* height: 350px; <-- Removido para que o gráfico se ajuste */
+            min-height: 280px; /* Altura mínima para não ficar muito pequeno */
+        }
+        
+        /* Contêiner da Canvas, para gerenciar o aspecto */
+        .chart-container {
+            position: relative;
+            height: 250px; /* Altura que o canvas Chart.js vai ocupar */
+            width: 100%;
+        }
+
         .drivers-widget .driver-item {
             border-bottom: 1px solid #ddd;
         }
@@ -380,7 +393,9 @@
                     
                     <div class="chart-widget">
                         <h3>Desempenho Semanal de Entregas</h3>
-                        <canvas id="deliveriesChart"></canvas>
+                        <div class="chart-container">
+                            <canvas id="deliveriesChart"></canvas>
+                        </div>
                     </div>
 
                     <div class="drivers-widget">
@@ -461,7 +476,6 @@
                     const fileName = pageMap[dataModule];
                     
                     if (fileName) {
-                        // Navega para o arquivo HTML correspondente (Ex: motoristas.html)
                         window.location.href = fileName;
                     }
                 });
@@ -471,7 +485,7 @@
             // --- Lógica do Erro Solicitado para Ações (.action-trigger) ---
             actionTriggers.forEach(element => {
                 element.addEventListener('click', function(event) {
-                    event.preventDefault(); // Impede o comportamento padrão
+                    event.preventDefault(); 
                     
                     const actionText = element.tagName === 'BUTTON' ? element.textContent : element.title || element.innerText;
                     
@@ -481,7 +495,7 @@
             });
 
 
-            // --- Inicialização do Gráfico (Chart.js) - CORES CORRIGIDAS ---
+            // --- Inicialização do Gráfico (Chart.js) ---
             const ctx = document.getElementById('deliveriesChart');
             
             if (ctx) {
@@ -505,23 +519,21 @@
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false,
+                        // Corrigido: Para usar o tamanho do contêiner flexível
+                        maintainAspectRatio: false, 
                         scales: {
                             y: {
                                 beginAtZero: true,
                                 max: 1000,
                                 ticks: {
-                                    // Corrigido: Texto visível
                                     color: tickColor
                                 },
                                 grid: {
-                                    // Corrigido: Linhas de grade visíveis
                                     color: gridColor 
                                 }
                             },
                             x: {
                                 ticks: {
-                                    // Corrigido: Texto visível
                                     color: tickColor
                                 },
                                 grid: {
