@@ -220,19 +220,19 @@
                 <i class="material-icons">local_shipping</i> LOGISTI-TRACK
             </div>
             <div class="menu">
-                <div class="menu-item" data-module="visao-geral">
+                <div class="menu-item" data-file="index.html">
                     <i class="material-icons">dashboard</i> Visão Geral
                 </div>
-                <div class="menu-item" data-module="motoristas">
+                <div class="menu-item" data-file="motoristas.html">
                     <i class="material-icons">person</i> Motoristas
                 </div>
-                <div class="menu-item" data-module="veiculos">
+                <div class="menu-item" data-file="veiculos.html">
                     <i class="material-icons">directions_car</i> Veículos
                 </div>
-                <div class="menu-item" data-module="entregas">
+                <div class="menu-item" data-file="entregas.html">
                     <i class="material-icons">inventory</i> Entregas
                 </div>
-                <div class="menu-item active" data-module="rotas">
+                <div class="menu-item active" data-file="rotas.html">
                     <i class="material-icons">route</i> Rotas
                 </div>
             </div>
@@ -344,20 +344,19 @@
             // Elementos de Ação (Disparam o erro - classe .action-trigger)
             const actionTriggers = document.querySelectorAll('.action-trigger');
 
-            // 1. Lógica da Sidebar (Simula a navegação sem interrupção e sem erro)
+            // 1. Lógica da Sidebar (Alterna a página real)
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
+                    const fileName = this.getAttribute('data-file');
                     
-                    // 1. Remove a classe 'active' de todos os itens
-                    menuItems.forEach(i => i.classList.remove('active'));
-                    
-                    // 2. Adiciona a classe 'active' ao item clicado
-                    this.classList.add('active');
-                    
-                    // 3. (Opcional) Log para saber onde "navegou"
-                    console.log('Navegação: ' + this.textContent.trim());
-                    
-                    // **NENHUM ALERT AQUI PARA GARANTIR A NAVEGAÇÃO ININTERRUPTA**
+                    if (fileName) {
+                        // Navega para o arquivo HTML correspondente
+                        window.location.href = fileName;
+                        
+                        // Atualiza a classe 'active' visualmente
+                        menuItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
                 });
             });
             
