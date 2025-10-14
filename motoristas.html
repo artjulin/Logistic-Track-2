@@ -165,6 +165,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+            margin-top: 15px; /* Adicionado para separar do desempenho */
         }
 
         .driver-actions button {
@@ -181,7 +182,6 @@
         .driver-actions button:hover {
             background-color: #2980b9;
         }
-
     </style>
 </head>
 <body>
@@ -217,8 +217,8 @@
             </div>
         </div>
 
-        <!-- Lista de Motoristas -->
         <div class="drivers-list">
+            
             <div class="driver-card">
                 <div class="driver-header">
                     <div class="driver-avatar"><i class="material-icons">person</i></div>
@@ -260,5 +260,59 @@
                         <p>Escala: 7:00 - 15:00</p>
                     </div>
                 </div>
-                <div class="driver-performance">Desempenho: <span style="color: #f39c12;">Bom</span></div>
-                <div
+                <div class="driver-performance">Desempenho: <span style="color: var(--highlight-orange);">Bom</span></div>
+                <div class="driver-actions">
+                    <button>Ver Detalhes</button>
+                    <button>Gerenciar Escala</button>
+                </div>
+            </div>
+            
+            <div class="driver-card">
+                <div class="driver-header">
+                    <div class="driver-avatar"><i class="material-icons">person</i></div>
+                    <div class="driver-info">
+                        <h4>Motorista D</h4>
+                        <p>Eficiência: 82%</p>
+                        <p>Escala: 9:30 - 17:30</p>
+                    </div>
+                </div>
+                <div class="driver-performance">Desempenho: <span style="color: var(--alert-red);">Atenção</span></div>
+                <div class="driver-actions">
+                    <button>Ver Detalhes</button>
+                    <button>Gerenciar Escala</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Simulação de mapeamento de páginas para navegação
+            const pageMap = {
+                'visao-geral': 'index.html',    // Assumindo que a Visão Geral está em index.html
+                'motoristas': 'motoristas.html', // Esta página
+                'veiculos': 'veiculos.html',
+                'entregas': 'entregas.html',
+                'rotas': 'rotas.html'
+            };
+            
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const dataModule = this.getAttribute('data-module');
+                    const fileName = pageMap[dataModule];
+                    
+                    if (fileName) {
+                        // Navega para o arquivo correspondente. 
+                        // Para funcionar, você precisa ter criado os outros arquivos (index.html, veiculos.html, etc.)
+                        window.location.href = fileName;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
