@@ -68,6 +68,7 @@
         }
 
         /* ESTILO PARA BOTÕES DE NAVEGAÇÃO */
+        /* O menu-item JÁ É o botão clicável */
         .menu-item {
             display: flex;
             align-items: center;
@@ -255,16 +256,14 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* AJUSTE PARA O TAMANHO NORMAL DO GRÁFICO: REMOVIDA A ALTURA FIXA */
+        /* AJUSTE PARA O TAMANHO NORMAL DO GRÁFICO */
         .chart-widget {
-            /* height: 350px; <-- Removido para que o gráfico se ajuste */
-            min-height: 280px; /* Altura mínima para não ficar muito pequeno */
+            min-height: 280px;
         }
         
-        /* Contêiner da Canvas, para gerenciar o aspecto */
         .chart-container {
             position: relative;
-            height: 250px; /* Altura que o canvas Chart.js vai ocupar */
+            height: 250px; /* Altura do Canvas */
             width: 100%;
         }
 
@@ -453,29 +452,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // 1. Mapeamento para simular a navegação real de página
-            const pageMap = {
-                // Ao clicar, o navegador tentará ir para o arquivo .html correspondente.
-                'visao-geral': 'index.html', 
-                'motoristas': 'motoristas.html',
-                'veiculos': 'veiculos.html',
-                'entregas': 'entregas.html',
-                'rotas': 'rotas.html'
-            };
-            
             // Elementos de Navegação da Sidebar
             const menuItems = document.querySelectorAll('.menu-item');
             
             // Elementos de Ação que disparam o erro
             const actionTriggers = document.querySelectorAll('.action-trigger');
 
-            // --- Lógica de Navegação da Sidebar (Sem Interrupção/Erro) ---
+            // --- Lógica de Navegação da Sidebar (Para mudar de página) ---
             menuItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    const dataModule = this.getAttribute('data-module');
-                    const fileName = pageMap[dataModule];
+                    // Pega o nome do arquivo diretamente do atributo data-file
+                    const fileName = this.getAttribute('data-file');
                     
                     if (fileName) {
+                        // Simula a navegação para o novo arquivo HTML
                         window.location.href = fileName;
                     }
                 });
@@ -501,8 +491,8 @@
             if (ctx) {
                 const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
                 const data = [350, 480, 400, 520, 650, 450];
-                const gridColor = '#e0e0e0'; // Linhas de grade CLARAS
-                const tickColor = '#666';    // Rótulos de texto ESCUROS
+                const gridColor = '#e0e0e0'; 
+                const tickColor = '#666';    
 
                 new Chart(ctx, {
                     type: 'bar',
@@ -519,7 +509,6 @@
                     },
                     options: {
                         responsive: true,
-                        // Corrigido: Para usar o tamanho do contêiner flexível
                         maintainAspectRatio: false, 
                         scales: {
                             y: {
